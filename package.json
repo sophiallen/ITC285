@@ -4,15 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  	"start": "nodemon --exec babel-node server.js --ignore public",
-  	"dev": "webpack -wd",
+    "start": "nodemon --exec babel-node server.js --ignore public",
+    "dev": "webpack -wd",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^2.5.6",
     "express": "^4.15.2",
     "mongodb": "^2.2.25",
+    "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
   },

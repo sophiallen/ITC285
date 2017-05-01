@@ -8,12 +8,11 @@ const server = express();
 server.set('view engine', 'ejs');
 
 server.get('/', (req, res) => {
-	logStars("Yay!")
+	logStars('Yay!');
 	res.render('index', {
 		content: 'Hello Ejs!'
 	});
 });
-
 
 server.use('/api', apiRouter);
 
@@ -22,5 +21,5 @@ server.use('/api', apiRouter);
 server.use(express.static('public'));
 
 server.listen(config.port, ()=> {
-	console.info("Listening on port ", config.port);
+	console.info('Listening on port ', config.port);
 });

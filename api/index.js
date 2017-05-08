@@ -7,6 +7,7 @@ router.get('/', (req, res) => {
 	res.send({data: []});
 });
 
+//TODO: Convert to POST instead of GET
 router.get('/search', (req, res) => {
 	console.log("query: " + req.query.jobTitle + " " + req.query.city);
 	let jobTitle = req.query.jobTitle;
@@ -14,6 +15,9 @@ router.get('/search', (req, res) => {
 	
 	crawler.search(city, jobTitle).then((result) => {
 		res.send(result);
+	}).catch(function(err){
+		console.log(err);
+		res.send("Something went wrong! :( ");
 	});
 });
 

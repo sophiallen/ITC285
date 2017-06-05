@@ -2,13 +2,13 @@ import React from 'react';
 import Header from './Header';
 import Banner from './Banner';
 import SearchBar from './SearchBar';
+import SearchResultDisplay from './SearchResults';
 
 import axios from 'axios';
 
 class App extends React.Component {
 	state = {
-		test: 'We have state!',
-		searching: false
+		test: 'We have state!'
 	};
 	componentDidMount() {
 		//ajax calls, listeners
@@ -19,26 +19,26 @@ class App extends React.Component {
 
 	onSearch(data){
 		console.log("Search triggered");
-		this.setState({searching: true});
+		this.setState({data: false});
 		let that = this;
 		axios.get('/api/search', {
 			params: data
 		}).then(function(response){
-			that.setState({
-				data: data,
-				searching: false});
+			console.log(response.status);
+			if (response.status === 200){
+				console.log("got data");
+				console.log(response);
+				console.log(response.data);
+				that.setState({data: response.data});
+			} else {
+				console.log("something went wrong...");
+				that.setState({displayError: "something went wrong!"});
+			}
 		});
 	}
 
 	render() {
-		let childElement = "";
-		if (this.state.searching) {
-			childElement = <p>Spinner!</p>;
-		} else if (this.state.data){
-			childElement = <p>Data!</p>;
-		} else {
-			childElement = <p>About Us</p>;
-		}
+		let errorMsg = this.state.displayError? <p>{this.state.displayError}</p> : "";
 		return (
 			<div className="App">
 				<Header title="Capstone"/>
@@ -46,7 +46,8 @@ class App extends React.Component {
 					<h1 className="text-center">Are <strong>you</strong> in demand?</h1>
 					<SearchBar onSearch={this.onSearch.bind(this)}/>
 				</Banner>
-				{childElement}
+				{errorMsg}
+				<SearchResultDisplay data={this.state.data}/>
 				<h2>{this.state.test}</h2>
 				<p>Details about the subsection. So many details!</p>
 			</div>

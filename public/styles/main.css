@@ -1,0 +1,65 @@
+/*Palette: black, salmon: #f06543, blue: #3f51b5, white, gray: #E8E9EB); */
+
+html {
+	height: 100%;
+	background-color: #607D8B;
+}
+
+body {
+	background-color: transparent;
+}
+
+h1, h2, h3, h4 {
+	font-family: 'Cardo';
+	color: #FFFFFF;
+	font-weight: bolder;
+}
+
+h1 {font-size: 5.063em;}
+h2 {font-size: 3.375em;}
+h3 {font-size: 2.25em;}
+h4 {font-size: 1.5em;}
+
+h1 strong {
+	color: #F06543; 
+}
+
+.site-title {
+	margin-left: .25em;
+	margin-top: 10px;
+}
+
+header {
+	overflow:hidden;
+	background-color: #131313;
+}
+
+div.banner {
+    background-size: cover;
+    height: 375px;
+}
+
+.banner .overlay {
+	background-color: rgba(0, 0, 0, 0.5);
+	padding-top: 125px;
+	height: 375px;
+}
+
+form.searchBar {
+	width: 56%;
+	margin: 0 auto;
+	margin-top: 1.5em;
+}
+
+form.searchBar button {
+	background-color: #f06543;
+	color: black;
+}
+
+form .form-group {
+	padding: .5em 1em;
+}
+
+.form-group input {
+	padding: .3em;
+}

@@ -11,9 +11,12 @@ router.get('/', (req, res) => {
 router.get('/search', (req, res) => {
 	console.log("query: " + req.query.jobTitle + " " + req.query.city);
 	let jobTitle = req.query.jobTitle;
-	let city = req.query.city;
-	
-	crawler.search(city, jobTitle).then((result) => {
+	let city = req.query.city.toLowerCase().trim();
+	let keywords = req.query.keywords;
+	console.log("keywords: " + keywords);
+
+	crawler.search(city, jobTitle, keywords).then((result) => {
+		console.log(result);
 		res.send(result);
 	}).catch(function(err){
 		console.log(err);

@@ -3,6 +3,9 @@ logs
 *.log
 npm-debug.log*
 
+#api keys
+firebase.config.js
+
 # Runtime data
 pids
 *.pid

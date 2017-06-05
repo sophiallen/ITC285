@@ -8,7 +8,8 @@ import axios from 'axios';
 
 class App extends React.Component {
 	state = {
-		test: 'We have state!'
+		test: 'We have state!',
+		didSearch: false
 	};
 	componentDidMount() {
 		//ajax calls, listeners
@@ -19,7 +20,7 @@ class App extends React.Component {
 
 	onSearch(data){
 		console.log("Search triggered");
-		this.setState({data: false});
+		this.setState({data: false, didSearch: true});
 		let that = this;
 		axios.get('/api/search', {
 			params: data
@@ -47,7 +48,7 @@ class App extends React.Component {
 					<SearchBar onSearch={this.onSearch.bind(this)}/>
 				</Banner>
 				{errorMsg}
-				<SearchResultDisplay data={this.state.data}/>
+				{this.state.didSearch? <SearchResultDisplay data={this.state.data}/> :''}
 				<h2>{this.state.test}</h2>
 				<p>Details about the subsection. So many details!</p>
 			</div>

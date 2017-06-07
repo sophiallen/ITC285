@@ -16,7 +16,6 @@ router.get('/search', (req, res) => {
 	console.log("keywords: " + keywords);
 
 	crawler.search(city, jobTitle, keywords).then((result) => {
-		console.log(result);
 		res.send(result);
 	}).catch(function(err){
 		console.log(err);

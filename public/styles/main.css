@@ -51,7 +51,7 @@ div.banner {
 }
 
 form.searchBar {
-	width: 56%;
+	width: 48%;
 	margin: 0 auto;
 	margin-top: 1.5em;
 }
@@ -67,6 +67,30 @@ form .form-group {
 
 .form-group input {
 	padding: .3em;
+}
+
+.upArrow {
+  width: 0;
+  border: 30px solid transparent;
+  border-bottom: 30px solid rgb(96, 125, 139);
+  margin-top: -4em;
+  margin-left: 13em;
+}
+
+.upArrow .results {
+  border-bottom: 30px solid white;
+  margin-left: 9.5em;
+}
+
+.about {
+  color: white;
+  width: 75%;
+  margin: 2.5em auto;
+  line-height: 1.75;
+}
+
+.about p {
+  font-size: 1.25em;
 }
 
 /*Spinner Styles, found on http://tobiasahlin.com/spinkit/*/

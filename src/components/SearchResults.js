@@ -19,35 +19,46 @@ class SearchResultDisplay extends React.Component {
 		);
 	}
 
-	displayCounts(){
-		let terms = Object.keys(this.props.data.counts);
-		let counts = Object.values(this.props.data.counts);
-		let hits = this.props.data.hits;
-		return terms.map((term, i)=>{
-			let percent = Math.round( (hits[term] / this.props.data.posts) * 100);
-			return <p key={i}><strong>{term}:</strong> {counts[i]} mentions, {percent}% of posts.</p>
-		});
+	componentWillReceiveProps(){
+		console.log("about to recieve props");
+		this.setState({displayNum:5});
 	}
 
-	sortJobs(){
-		let keys = Object.keys(this.props.data.rankings);
-		let rankings = this.props.data.rankings;
-
-		let sortedJobs = keys.sort((a, b) =>{
-			return -1 * (rankings[a].matches-rankings[b].matches);
+	sortKeywords(){
+		let sorted = this.props.keywordData.sort( (a,b) => {
+			return b.hits - a.hits;
 		});
 
-		return sortedJobs;
+		return sorted;
 	}
 
-	displayJobs(){
+	displayKeywordData(keyword){
+		return (<p key={keyword.term}><strong>{keyword.term.capitalize()}</strong>: {keyword.hits} posts, {keyword.mentions} total mentions</p>);
+	}
 
-		let rankings = this.props.data.rankings;
-		let top = this.sortJobs().slice(0, this.state.displayNum);
+	displayJobData(){
+		let numKeywords = this.props.keywordData.length;
 
-		return top.map((title) => {
-			return <p key={title}><a href={rankings[title].url}>{title}</a>: {rankings[title].matches} matches</p>
+		//sort jobs first by number of keywords matched, then number of mentions. 
+		let sorted = this.props.postsData.sort( (a,b) => {
+			let aTerms = Object.keys(a.termMatches).length;
+			let bTerms = Object.keys(b.termMatches).length;
+			if (aTerms === bTerms){
+				return b.matches - a.matches;
+			} else {
+				return bTerms - aTerms;
+			}
 		});
+
+		return sorted.slice(0, this.state.displayNum).map(this.singleJob);
+	}
+
+	singleJob(job, i){
+		return (<p key={job.title + "_" + i}><a href={job.url}>{job.title}</a>: matched: {Object.keys(job.termMatches).join(", ")}</p>);
+	}
+
+	capitalize(word){
+		return word[0].toUpperCase() + word.slice(1);
 	}
 
 	showMore(){
@@ -55,31 +66,36 @@ class SearchResultDisplay extends React.Component {
 		this.setState({displayNum: num});
 	}
 
-	renderData(){
-		let moreBtn = '';
-		let maxMatches = Object.keys(this.props.data.rankings).length;
-		if (this.state.displayNum < maxMatches){
-			moreBtn = <button onClick={this.showMore.bind(this)}>Shore me more!</button>;
-		}
-		return (
-			<div className="result-display">
-				<h2>We found {this.props.data.posts} posts! </h2>
-				<h3>Of the posts we found: </h3>
-				{this.displayCounts()}
-				<h3>These were your top matches:</h3>
-				{this.displayJobs()}
-				{moreBtn}				
-			</div>
-		)
-	}
-
 	render(){
-		if (this.props.data){
-			return this.renderData();
+		console.log("props: ", this.props);
+
+		if (this.props.keywordData){		
+			console.log("props.keywordData: ", this.props.keywordData);
+			let keywords = this.sortKeywords(this.props.keywordData);
+			let displayMoreBtn = "";
+			if (this.state.displayNum < this.props.postsData.length){
+				displayMoreBtn =(<button onClick={this.showMore.bind(this)}>Show me more!</button>);
+			}
+
+
+			return (
+				<div className="result-display">
+					<h2>We found {this.props.postsData.length} results!</h2>
+					<h3>Your top skill is: {keywords[0].term.capitalize()}</h3>
+					{keywords.map(this.displayKeywordData)}
+					<p>{this.props.misses} posts did not mention your skills at all :-/ </p>
+					<h3>Here are your top matching jobs:</h3>
+					{this.displayJobData()}
+					{displayMoreBtn}
+				</div>);
 		} else {
 			return this.renderSpinner();
 		}
 	}
+}
+
+String.prototype.capitalize = function(){
+	return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
 export default SearchResultDisplay;
